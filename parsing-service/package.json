@@ -1,0 +1,24 @@
+{
+  "name": "parsing-service",
+  "description": "Parses user queries and returns answers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:tydli/parsing-service.git",
+  "author": "Aurélien <au.re@live.com>",
+  "scripts": {
+    "start": "node build/index.js",
+    "start:dev": "npx nodemon",
+    "build": "rimraf ./build && tsc"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "@types/node": "^18.13.0",
+    "nodemon": "^2.0.20",
+    "rimraf": "^4.1.2",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.9.5"
+  }
+}
