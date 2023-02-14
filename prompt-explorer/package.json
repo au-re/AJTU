@@ -1,6 +1,6 @@
 {
-  "name": "parsing-service",
-  "description": "Parses user queries and returns answers",
+  "name": "prompt-explorer",
+  "description": "Explore prompts towards the OpenAI API",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -8,15 +8,19 @@
     "start:dev": "npx nodemon",
     "build": "rimraf ./build && tsc"
   },
-  "dependencies": {
-    "express": "^4.18.2"
-  },
   "devDependencies": {
     "@types/express": "^4.17.17",
+    "@types/lodash": "^4.14.191",
     "@types/node": "^18.13.0",
+    "@types/yargs": "^17.0.22",
     "nodemon": "^2.0.20",
     "rimraf": "^4.1.2",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.21",
+    "openai": "^3.1.0",
+    "yargs": "^17.6.2"
   }
 }
