@@ -6,6 +6,7 @@ import { ChakraProvider } from "@chakra-ui/react";
 
 import { BrowserRouter } from "react-router-dom";
 import { AJTUTheme } from "./themes/theme";
+import { GameContextProvider } from "./state/GameContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 
@@ -13,7 +14,9 @@ root.render(
   <React.StrictMode>
     <ChakraProvider theme={AJTUTheme}>
       <BrowserRouter>
-        <App />
+        <GameContextProvider>
+          <App />
+        </GameContextProvider>
       </BrowserRouter>
     </ChakraProvider>
   </React.StrictMode>

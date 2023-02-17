@@ -1,10 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-export function useTypewriter(str: string) {
+export function useTypewriter(str: string, onDone?: () => void) {
   const [index, setIndex] = React.useState(0);
   const [text, setText] = React.useState("");
+  const isDone = text === str;
 
-  React.useEffect(() => {
+  useEffect(() => {
+    setText("");
+  }, [str, setText]);
+
+  useEffect(() => {
+    if (isDone) {
+      setIndex(0);
+      onDone?.();
+    }
+  }, [isDone]);
+
+  useEffect(() => {
+    if (isDone) return;
+
     const timer = setTimeout(() => {
       if (index < str.length) {
         setText(text + str[index]);
@@ -13,7 +27,7 @@ export function useTypewriter(str: string) {
     }, 20 + Math.random() * 20);
 
     return () => clearTimeout(timer);
-  }, [index, setText, setIndex]);
+  }, [str, text, index, setText, setIndex]);
 
-  return text;
+  return { text, isDone };
 }

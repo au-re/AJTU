@@ -12,13 +12,12 @@ export const buttonTheme = defineStyleConfig({
       },
     },
     _light: {
+      color: "teal.500",
       bg: "background.MID",
     },
     _dark: {
+      color: "teal.300",
       bg: "background.MID",
     },
-  },
-  defaultProps: {
-    size: "lg",
   },
 });
