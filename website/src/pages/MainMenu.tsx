@@ -1,4 +1,15 @@
-import { Button, Center, Heading, Progress, Stack, Wrap } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Heading,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  Progress,
+  Stack,
+  Text,
+  Wrap,
+} from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Glitch } from "../components/Glitch";
@@ -22,14 +33,20 @@ export const MainMenu = () => {
 
   return (
     <Center>
-      <Progress size="xs" isIndeterminate />
+      <Modal isCentered onClose={() => {}} isOpen={isLoading}>
+        <ModalOverlay />
+        <ModalContent>
+          <Text>starting adventure</Text>
+          <Progress bg="background.MID" colorScheme="teal" size="sm" isIndeterminate />
+        </ModalContent>
+      </Modal>
       <Wrap direction="row" spacing="6" display="flex">
         <AdventureImage src="/images/bg_thumbnail_placeholder.png" />
         <Stack spacing="8" width="420px">
           <Heading>A Journey through the Unknown</Heading>
-          <AnimatedText text={description}></AnimatedText>
+          <AnimatedText height="240px" text={description}></AnimatedText>
           <Button isLoading={isLoading} onClick={onStartGameClick} size="lg">
-            <Glitch text="> Start New Adventure" />
+            <Glitch text="> Start a new Adventure" />
           </Button>
         </Stack>
       </Wrap>

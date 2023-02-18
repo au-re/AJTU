@@ -1,6 +1,7 @@
-import { Center, Container, Flex } from "@chakra-ui/react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Center } from "@chakra-ui/react";
+import { Route, Routes } from "react-router-dom";
 import { Game } from "./pages/Game";
+import { GameOver } from "./pages/GameOver";
 import { MainMenu } from "./pages/MainMenu";
 
 export function App() {
@@ -9,6 +10,7 @@ export function App() {
       <Routes>
         <Route index element={<MainMenu />} />
         <Route path="/game" element={<Game />} />
+        <Route path="/game_over" element={<GameOver />} />
       </Routes>
     </Center>
   );

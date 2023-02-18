@@ -5,7 +5,9 @@ import { placeholderChapters } from "../placeholders";
 export const fetchChapter = (index: number): Promise<Chapter> => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
-      resolve(placeholderChapters[index]);
+      resolve(
+        placeholderChapters[index] || placeholderChapters[Math.floor(Math.random() * placeholderChapters.length)]
+      );
     }, 1000);
   });
 };

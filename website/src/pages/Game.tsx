@@ -1,36 +1,27 @@
-import {
-  Button,
-  Center,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Center, Modal, ModalContent, ModalOverlay, Progress, Text } from "@chakra-ui/react";
 import { useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ChapterList } from "../components/ChapterList";
 import { ChapterView } from "../components/ChapterView";
-import { Glitch } from "../components/Glitch";
-import { useKeyPress } from "../hooks/useKeyPress";
+import { GameMenu } from "../components/GameMenu";
 import { GameContext } from "../state/GameContext";
 
 export const Game = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
-  const { currentChapterIndex, chapters, quitGame } = useContext(GameContext);
+  const { gameOver, currentChapterIndex, chapters, inventory, isLoadingChapter } = useContext(GameContext);
   const currentChapter = chapters[currentChapterIndex];
 
-  useKeyPress("Escape", onOpen);
+  useEffect(() => {
+    if (gameOver) {
+      navigate("/game_over");
+    }
+  }, [gameOver]);
 
   useEffect(() => {
     if (!currentChapter) {
       navigate("/");
     }
-  }, [currentChapter]);
+  }, [navigate, currentChapter]);
 
   if (!currentChapter) {
     return null;
@@ -38,22 +29,16 @@ export const Game = () => {
 
   return (
     <Center>
-      <Modal isCentered isOpen={isOpen} onClose={onClose}>
+      <Modal isCentered onClose={() => {}} isOpen={isLoadingChapter}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Game Menu</ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            <Text>Please note that we currently don't save your progress</Text>
-          </ModalBody>
-          <ModalFooter justifyContent={"start"}>
-            <Button onClick={quitGame}>
-              <Glitch text="> Quit" />
-            </Button>
-          </ModalFooter>
+          <Text padding="6">You step out of the rocket and start exploring the debris</Text>
+          <Progress bg="background.MID" colorScheme="teal" size="sm" isIndeterminate />
         </ModalContent>
       </Modal>
-      <ChapterView chapter={currentChapter} />
+      <GameMenu />
+      <ChapterList chapters={chapters} currentChapterIndex={currentChapterIndex} />
+      <ChapterView inventory={inventory} chapter={currentChapter} />
     </Center>
   );
 };
