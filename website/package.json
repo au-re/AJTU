@@ -26,6 +26,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "deploy": "firebase deploy",
+    "predeploy": "yarn build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },

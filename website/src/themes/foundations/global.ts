@@ -15,6 +15,10 @@ export const globalStyles = {
     "#root": { height: "100vh", display: "flex", flex: 1 },
     a: {
       color: mode("teal.500", "teal.300")(props),
+      _hover: {
+        textDecoration: "underline",
+        textDecorationStyle: "dashed",
+      },
     },
   }),
 };

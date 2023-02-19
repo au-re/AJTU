@@ -11,7 +11,6 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { useKeyPress } from "../hooks/useKeyPress";
 import { GameContext } from "../state/GameContext";
 import { Glitch } from "./Glitch";
