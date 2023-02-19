@@ -11,6 +11,7 @@ interface NextChapterRequest {
 interface NextChapterResponse {
   imageUrl: string;
   eventTitle: string;
+  scenePrompt: string;
   actionNarrations: string[];
   actionMotivations: string[];
   eventDescription: string;

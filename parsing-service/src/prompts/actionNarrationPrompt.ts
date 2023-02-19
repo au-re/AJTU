@@ -9,6 +9,6 @@ ${tone.suspense}
 ${storyContext(context)}
 Given the following actions that the protagonist can take next:
 ${actions}
-Narrate from the point of view of the protagonist in a short sentence what the protagonist is thinking when performing each action.
+Narrate from what the protagonist is doing for each action in a few sentences.
 Write each of your answers on a new line.`;
 };

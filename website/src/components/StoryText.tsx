@@ -21,9 +21,9 @@ export const AnimatedText = ({ text, onDone, ...props }: any) => {
 
 export const StoryText = ({ text }: any) => {
   return (
-    <Text overflow={"auto"} maxHeight={"220px"} lineHeight={"2rem"}>
+    <Text overflow={"auto"} maxHeight={"240px"} lineHeight={"1.8rem"}>
       {text}
-      <chakra.span lineHeight={"2rem"} animation={`${BlinkCaret} 0.9s step-end infinite`} fontSize="xl">
+      <chakra.span lineHeight={"1.8rem"} animation={`${BlinkCaret} 0.9s step-end infinite`} fontSize="xl">
         ▮
       </chakra.span>
     </Text>

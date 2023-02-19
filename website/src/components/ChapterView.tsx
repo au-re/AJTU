@@ -1,4 +1,17 @@
-import { Box, Button, Flex, Heading, Stack, Text, Wrap } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Heading,
+  Modal,
+  ModalContent,
+  ModalOverlay,
+  Progress,
+  Stack,
+  Text,
+  Tooltip,
+  Wrap,
+} from "@chakra-ui/react";
 import { useContext, useState } from "react";
 import { Action, Chapter, GameContext, Inventory as InventoryType } from "../state/GameContext";
 import { Glitch } from "./Glitch";
@@ -13,12 +26,14 @@ interface ChapterProps {
 
 export const ChapterView = (props: ChapterProps) => {
   const [isLoading, setLoading] = useState(false);
-  const { takeAction } = useContext(GameContext);
+  const [selectedActionIndex, setSelectedActionIndex] = useState<number | null>(null);
+  const { takeAction, isLoadingChapter } = useContext(GameContext);
   const [canPerformActions, setCanPerformActions] = useState(false);
   const { chapter, inventory } = props;
 
-  const onActionClick = async (action: Action) => {
+  const onActionClick = async (action: Action, index: number) => {
     setLoading(true);
+    setSelectedActionIndex(index);
     await takeAction(action);
     setCanPerformActions(false);
     setLoading(false);
@@ -26,7 +41,14 @@ export const ChapterView = (props: ChapterProps) => {
 
   return (
     <Wrap direction="row" spacing="6" display="flex">
-      <AdventureImage fades src={chapter.imageUrl} />
+      <Modal isCentered onClose={() => {}} isOpen={isLoadingChapter}>
+        <ModalOverlay />
+        <ModalContent>
+          {selectedActionIndex !== null && <Text padding="6">{chapter.actions[selectedActionIndex].narration}</Text>}
+          <Progress bg="background.MID" colorScheme="teal" size="sm" isIndeterminate />
+        </ModalContent>
+      </Modal>
+      <AdventureImage fades src={chapter.imageUrl} caption={chapter.imageCaption} />
       <Stack width="420px" flex={1} minWidth={"420px"}>
         <Flex direction="column" flex={1} justifyContent="space-between" marginBottom="6">
           <Heading size="lg">{chapter.title}</Heading>
@@ -37,11 +59,13 @@ export const ChapterView = (props: ChapterProps) => {
             {canPerformActions ? (
               <Wrap height={"220px"} direction="column">
                 <Text>What do you do?</Text>
-                {chapter.actions.map((action) => {
+                {chapter.actions.map((action, index) => {
                   return (
-                    <Button isLoading={isLoading} onClick={() => onActionClick(action)} key={action.name}>
-                      <Glitch text={action.name} />
-                    </Button>
+                    <Tooltip placement="left" key={action.name} label={action.motivation}>
+                      <Button height="fit-content" isLoading={isLoading} onClick={() => onActionClick(action, index)}>
+                        <Glitch text={action.name} />
+                      </Button>
+                    </Tooltip>
                   );
                 })}
               </Wrap>

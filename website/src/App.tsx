@@ -15,7 +15,7 @@ export function App() {
         </Routes>
         <Text opacity=".25" right="6" bottom="2" position="absolute">
           Made with <chakra.span color="white">♥</chakra.span> and AIs by <a>Aurélien Franky</a> for the{" "}
-          <a>All by AI</a> game jam
+          <a href="https://itch.io/jam/allbyai">All by AI</a> game jam
         </Text>
       </Center>
     </>

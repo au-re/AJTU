@@ -6,6 +6,7 @@ import { fetchRecap } from "./requests/fetchRecap";
 export interface Chapter {
   text: string;
   imageUrl?: string;
+  imageCaption?: string;
   actions: Action[];
   title: string;
 }
@@ -91,6 +92,7 @@ export function GameContextProvider(props: any) {
       title: newChapterResponse.eventTitle,
       text: newChapterResponse.eventDescription,
       imageUrl: newChapterResponse.imageUrl,
+      imageCaption: newChapterResponse.scenePrompt,
       actions: newChapterResponse.availableActions.map((action, index) => ({
         name: action,
         narration: newChapterResponse.actionNarrations[index],

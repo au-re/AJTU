@@ -21,7 +21,7 @@ export const writingStyle = {
 export const instructions = {
   commaSeparatedList: "Write your answers in a comma separated list.",
   shortDescription: "Keep the description of each action short and to the point.",
-  avoid: "Do not use the word 'unknown'.",
+  avoid: "Do not under any circumstances use the following word in your answer: unknown.",
   punctuation: "Finish each sentence with a period.",
 };
 

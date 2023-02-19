@@ -67,7 +67,8 @@ app.post("/chapter", async (req: Request<GetChapterRequest>, res) => {
 
   res.send({
     imageUrl,
-    eventTitle,
+    eventTitle: eventTitle.replace(/"/g, ""),
+    scenePrompt,
     original: {
       actionNarrations,
       actionMotivations,

@@ -3,8 +3,18 @@ import { useEffect, useState } from "react";
 import { Glitch } from "./Glitch";
 import { StoryText } from "./StoryText";
 
+function splitText(text: string) {
+  const n = 3;
+  const sentences = text
+    .split(".")
+    .reduce((r, e, i) => (i % n ? r[r.length - 1].push(e) : r.push([e])) && r, [] as any)
+    .map((e: string[]) => e.join(".") + ".")
+    .filter((e: string) => e.length > 1);
+  return sentences;
+}
+
 export const TextCarousel = ({ text, onComplete }: { text: string; onComplete: () => void }) => {
-  const parts = text.split("\n");
+  const parts = splitText(text);
   const [currentIndex, setIndex] = useState(0);
 
   // reset the index when the text changes

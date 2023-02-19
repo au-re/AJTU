@@ -29,13 +29,6 @@ export const Game = () => {
 
   return (
     <Center>
-      <Modal isCentered onClose={() => {}} isOpen={isLoadingChapter}>
-        <ModalOverlay />
-        <ModalContent>
-          <Text padding="6">You step out of the rocket and start exploring the debris</Text>
-          <Progress bg="background.MID" colorScheme="teal" size="sm" isIndeterminate />
-        </ModalContent>
-      </Modal>
       <GameMenu />
       <ChapterList chapters={chapters} currentChapterIndex={currentChapterIndex} />
       <ChapterView inventory={inventory} chapter={currentChapter} />

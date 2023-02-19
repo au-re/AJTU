@@ -2,7 +2,9 @@ import { defineStyleConfig } from "@chakra-ui/react";
 
 export const buttonTheme = defineStyleConfig({
   baseStyle: {
+    minHeight: "2.5rem",
     borderRadius: "0",
+    whiteSpace: "normal",
     _hover: {
       _light: {
         bg: "background.HIGHLIGHT",
