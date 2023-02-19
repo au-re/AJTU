@@ -1,13 +1,34 @@
-import { Chapter } from "../GameContext";
-import { placeholderChapters } from "../placeholders";
+import axios from "axios";
 
-// in the future we should pass current game state to generate a prompt to create a new chapter
-export const fetchChapter = (index: number): Promise<Chapter> => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      resolve(
-        placeholderChapters[index] || placeholderChapters[Math.floor(Math.random() * placeholderChapters.length)]
-      );
-    }, 1000);
-  });
+const baseUrl = "http://localhost:8080";
+
+interface NextChapterRequest {
+  action: string;
+  protagonist: string;
+  events: string[];
+}
+
+interface NextChapterResponse {
+  imageUrl: string;
+  eventTitle: string;
+  actionNarrations: string[];
+  actionMotivations: string[];
+  eventDescription: string;
+  availableActions: string[];
+  original: {
+    actionNarrations: string;
+    actionMotivations: string;
+    eventDescription: string;
+    availableActions: string;
+  };
+}
+
+export const fetchNextChapter = async (payload: NextChapterRequest): Promise<NextChapterResponse | null> => {
+  try {
+    const res = await axios.post(`${baseUrl}/chapter`, payload);
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    return null;
+  }
 };

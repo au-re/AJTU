@@ -14,7 +14,8 @@ export function App() {
           <Route path="/game_over" element={<GameOver />} />
         </Routes>
         <Text opacity=".25" right="6" bottom="2" position="absolute">
-          Made with <chakra.span color="white">♥</chakra.span> by Aurélien Franky for the game jam
+          Made with <chakra.span color="white">♥</chakra.span> and AIs by <a>Aurélien Franky</a> for the{" "}
+          <a>All by AI</a> game jam
         </Text>
       </Center>
     </>

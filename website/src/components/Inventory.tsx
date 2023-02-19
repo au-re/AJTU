@@ -28,7 +28,7 @@ interface InventoryProps {
 export const Inventory = ({ inventory }: InventoryProps) => {
   return (
     <Box paddingTop="4" paddingBottom="4" borderTop="1px dashed #ffffff66" borderBottom="1px dashed #ffffff66">
-      <Text>Your inventory</Text>
+      <Text>Your inventory {!inventory.items.length && "is empty"}</Text>
       <Wrap marginTop="4">
         {inventory.items.map((item) => (
           <InventoryItem key={item.name} item={item} />

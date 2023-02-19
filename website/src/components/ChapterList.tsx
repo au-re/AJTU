@@ -2,7 +2,6 @@ import { Image, Stack, Tooltip } from "@chakra-ui/react";
 import { Chapter } from "../state/GameContext";
 
 export const ChapterList = ({ chapters, currentChapterIndex }: any) => {
-  console.log(chapters);
   return (
     <Stack direction="column" margin="2">
       {chapters.map((chapter: Chapter, index: number) => (

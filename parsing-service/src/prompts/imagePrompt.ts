@@ -1,5 +1,5 @@
-import { imageStyles } from "./styles";
+import { imageStyles, storyTypes, tone } from "./styles";
 
 export const imagePrompt = (description: string) => {
-  return `${description} ${imageStyles.digital}`;
+  return `${description} ${imageStyles.scifi} ${imageStyles.digital} stanley kubrick`;
 };

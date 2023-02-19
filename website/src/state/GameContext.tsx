@@ -1,6 +1,6 @@
 import React from "react";
-import { placeholderInventory } from "./placeholders";
-import { fetchChapter } from "./requests/fetchChapter";
+import { defaultProtagonist, initialChapter } from "./initialChapter";
+import { fetchNextChapter } from "./requests/fetchChapter";
 import { fetchRecap } from "./requests/fetchRecap";
 
 export interface Chapter {
@@ -17,6 +17,8 @@ export interface Recap {
 
 export interface Action {
   name: string;
+  narration: string;
+  motivation: string;
   isFinalAction?: boolean;
 }
 
@@ -32,7 +34,7 @@ export interface Inventory {
 const defaultGameState = {
   started: false,
   gameOver: false,
-  inventory: placeholderInventory,
+  inventory: { items: [] },
   chapters: [] as Chapter[],
   currentChapterIndex: 0,
   isLoadingChapter: false,
@@ -51,8 +53,7 @@ export function GameContextProvider(props: any) {
 
   const startGame = async () => {
     setLoadingChapter(true);
-    const firstChapter = await fetchChapter(0);
-    setState({ ...defaultGameState, started: true, chapters: [firstChapter] });
+    setState({ ...defaultGameState, started: true, chapters: [initialChapter] });
     setLoadingChapter(false);
   };
 
@@ -66,6 +67,7 @@ export function GameContextProvider(props: any) {
 
   const takeAction = async (action: Action) => {
     setLoadingChapter(true);
+
     if (action.isFinalAction) {
       const recap = await fetchRecap();
       setState({ ...state, recap, gameOver: true });
@@ -73,12 +75,35 @@ export function GameContextProvider(props: any) {
       return;
     }
 
-    const newChapter = await fetchChapter(state.currentChapterIndex + 1);
+    const newChapterResponse = await fetchNextChapter({
+      action: action.name,
+      events: state.chapters.map((chapter) => chapter.text),
+      protagonist: defaultProtagonist,
+    });
+
+    if (!newChapterResponse) {
+      setLoadingChapter(false);
+      // something went wrong
+      return;
+    }
+
+    const newChapter = {
+      title: newChapterResponse.eventTitle,
+      text: newChapterResponse.eventDescription,
+      imageUrl: newChapterResponse.imageUrl,
+      actions: newChapterResponse.availableActions.map((action, index) => ({
+        name: action,
+        narration: newChapterResponse.actionNarrations[index],
+        motivation: newChapterResponse.actionMotivations[index],
+      })),
+    };
+
     setState({
       ...state,
       currentChapterIndex: state.currentChapterIndex + 1,
       chapters: [...state.chapters, newChapter],
     });
+
     setLoadingChapter(false);
   };
 

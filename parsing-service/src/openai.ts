@@ -13,7 +13,7 @@ const defaultCompletionOptions = {
 };
 
 const defaultImageOptions = {
-  imageSize: "512x512",
+  imageSize: "1024x1024",
 };
 
 export async function createCompletion(prompt: string, options = defaultCompletionOptions) {
