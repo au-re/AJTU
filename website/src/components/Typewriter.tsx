@@ -14,7 +14,7 @@ export function useTypewriter(str: string, onDone?: () => void) {
       setIndex(0);
       onDone?.();
     }
-  }, [isDone]);
+  }, [isDone, onDone, setIndex]);
 
   useEffect(() => {
     if (isDone) return;
@@ -27,7 +27,7 @@ export function useTypewriter(str: string, onDone?: () => void) {
     }, 20 + Math.random() * 20);
 
     return () => clearTimeout(timer);
-  }, [str, text, index, setText, setIndex]);
+  }, [isDone, str, text, index, setText, setIndex]);
 
   return { text, isDone };
 }

@@ -13,7 +13,7 @@ export function App() {
           <Route path="/game" element={<Game />} />
           <Route path="/game_over" element={<GameOver />} />
         </Routes>
-        <Text _hover={{ opacity: 1 }} opacity=".25" right="6" bottom="2" position="absolute">
+        <Text _hover={{ opacity: ".8" }} opacity=".5" right="6" bottom="2" position="absolute">
           Made with <chakra.span color="white">♥</chakra.span> and AIs by{" "}
           <a href="https://github.com/au-re/AJTU">Aurélien Franky</a> for the{" "}
           <a href="https://itch.io/jam/allbyai">All by AI</a> game jam

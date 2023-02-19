@@ -8,14 +8,14 @@ import { GameContext } from "../state/GameContext";
 
 export const Game = () => {
   const navigate = useNavigate();
-  const { gameOver, currentChapterIndex, chapters, inventory, isLoadingChapter } = useContext(GameContext);
+  const { gameOver, currentChapterIndex, chapters, inventory } = useContext(GameContext);
   const currentChapter = chapters[currentChapterIndex];
 
   useEffect(() => {
     if (gameOver) {
       navigate("/game_over");
     }
-  }, [gameOver]);
+  }, [navigate, gameOver]);
 
   useEffect(() => {
     if (!currentChapter) {
