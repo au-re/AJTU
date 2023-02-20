@@ -1,49 +1,22 @@
 import React from "react";
 import { defaultProtagonist, initialChapter } from "./initialChapter";
 import { fetchNextChapter } from "./requests/fetchChapter";
-import { fetchRecap } from "./requests/fetchRecap";
-
-export interface Chapter {
-  text: string;
-  imageUrl?: string;
-  imageCaption?: string;
-  actions: Action[];
-  title: string;
-}
-
-export interface Recap {
-  text: string;
-  imageUrl?: string;
-}
-
-export interface Action {
-  name: string;
-  narration: string;
-  motivation: string;
-  isFinalAction?: boolean;
-}
-
-export interface Item {
-  name: string;
-  imageUrl: string;
-}
-
-export interface Inventory {
-  items: Item[];
-}
+import { fetchConclusion } from "./requests/fetchConclusion";
+import { Action, Chapter, Conclusion } from "./types";
 
 const defaultGameState = {
+  path: "0",
   started: false,
   gameOver: false,
   inventory: { items: [] },
   chapters: [] as Chapter[],
   currentChapterIndex: 0,
   isLoadingChapter: false,
-  recap: null as Recap | null,
+  conclusion: null as Conclusion | null,
   quitGame: () => {},
   startGame: () => {},
   setCurrentChapter: (currentChapterIndex: number) => {},
-  takeAction: (action: Action) => {},
+  takeAction: (action: Action, idx: number) => {},
 };
 
 export const GameContext = React.createContext(defaultGameState);
@@ -66,17 +39,27 @@ export function GameContextProvider(props: any) {
     setState({ ...state, currentChapterIndex });
   };
 
-  const takeAction = async (action: Action) => {
+  const takeAction = async (action: Action, idx: number) => {
     setLoadingChapter(true);
 
-    if (action.isFinalAction) {
-      const recap = await fetchRecap();
-      setState({ ...state, recap, gameOver: true });
+    if (action.conclusion) {
+      const conclusion = await fetchConclusion({
+        protagonist: defaultProtagonist,
+        events: state.chapters.map((chapter) => chapter.text),
+        conclusion: action.conclusion,
+      });
+
+      if (!conclusion) return;
+      setState({ ...state, conclusion, gameOver: true });
       setLoadingChapter(false);
       return;
     }
 
+    const path = state.path + "." + idx;
+
     const newChapterResponse = await fetchNextChapter({
+      path,
+      currentChapterNumber: state.chapters[state.currentChapterIndex].chapterNumber,
       action: action.name,
       events: state.chapters.map((chapter) => chapter.text),
       protagonist: defaultProtagonist,
@@ -89,19 +72,17 @@ export function GameContextProvider(props: any) {
     }
 
     const newChapter = {
+      chapterNumber: newChapterResponse.chapterNumber,
       title: newChapterResponse.eventTitle,
       text: newChapterResponse.eventDescription,
       imageUrl: newChapterResponse.imageUrl,
       imageCaption: newChapterResponse.scenePrompt,
-      actions: newChapterResponse.availableActions.map((action, index) => ({
-        name: action,
-        narration: newChapterResponse.actionNarrations[index],
-        motivation: newChapterResponse.actionMotivations[index],
-      })),
+      actions: newChapterResponse.actions,
     };
 
     setState({
       ...state,
+      path,
       currentChapterIndex: state.currentChapterIndex + 1,
       chapters: [...state.chapters, newChapter],
     });

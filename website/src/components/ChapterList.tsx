@@ -1,5 +1,5 @@
 import { Image, Stack, Tooltip } from "@chakra-ui/react";
-import { Chapter } from "../state/GameContext";
+import { Chapter } from "../state/types";
 
 export const ChapterList = ({ chapters, currentChapterIndex }: any) => {
   return (

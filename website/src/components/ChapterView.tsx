@@ -13,7 +13,8 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import { useContext, useState } from "react";
-import { Action, Chapter, GameContext, Inventory as InventoryType } from "../state/GameContext";
+import { GameContext } from "../state/GameContext";
+import { Action, Chapter, Inventory as InventoryType } from "../state/types";
 import { Glitch } from "./Glitch";
 import { AdventureImage } from "./Image";
 import { Inventory } from "./Inventory";
@@ -34,7 +35,7 @@ export const ChapterView = (props: ChapterProps) => {
   const onActionClick = async (action: Action, index: number) => {
     setLoading(true);
     setSelectedActionIndex(index);
-    await takeAction(action);
+    await takeAction(action, index);
     setCanPerformActions(false);
     setLoading(false);
   };

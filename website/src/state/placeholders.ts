@@ -1,6 +1,7 @@
-import { Chapter, Inventory, Recap } from "./GameContext";
+import { Chapter, Conclusion, Inventory } from "./types";
 
 export const chapter1: Chapter = {
+  chapterNumber: 1,
   title: "Part 1: Crashlanding",
   text: `The hero had been hurtling through the vast expanse of space in a sleek, state-of-the-art spaceship when disaster struck. 
     An unexpected gravitational anomaly sent the vessel spiraling out of control, and before the hero could react, the ship careened into the atmosphere of an unknown planet. 
@@ -15,19 +16,20 @@ export const chapter1: Chapter = {
     { name: "Search for supplies", motivation: "", narration: "" },
     { name: "Investigate the crash site", motivation: "", narration: "" },
     { name: "Wait for help", motivation: "", narration: "" },
-    { name: "Lose game", motivation: "", narration: "", isFinalAction: true },
+    { name: "Lose game", motivation: "", narration: "" },
   ],
 };
 
-export const chapter2 = {
+export const chapter2: Chapter = {
+  chapterNumber: 2,
   title: "Part 2: Searching for supplies",
   text: `After the crash, the hero stumbled out of the wreckage and surveyed the scene. The once sleek and advanced spaceship was now a crumpled, smoking mess. 
     Undeterred, the hero began searching for supplies, sifting through the rubble for anything that might be useful. 
     With each passing moment, the realization set in that the hero was alone on a foreign planet with only their own ingenuity to rely on.`,
   imageUrl: "/images/investigate_wreckage.png",
   actions: [
-    { name: "Win game", isFinalAction: true },
-    { name: "Lose game", isFinalAction: true },
+    { name: "Win game", motivation: "", narration: "" },
+    { name: "Lose game", motivation: "", narration: "" },
   ],
 };
 
@@ -42,7 +44,8 @@ export const placeholderInventory: Inventory = {
   ],
 };
 
-export const placeholderRecap: Recap = {
+export const placeholderConclusion: Conclusion = {
+  conclusion: "sad",
   text: "You have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a person. You have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a person You have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a person You have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a person You have been on a great adventure. \n You have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a personYou have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a personYou have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a person You have seen many things and met many people. You have learned many things. You have grown as a person You have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a person. You have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a person You have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a person You have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a person You have been on a great adventure. \n You have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a personYou have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a personYou have been on a great adventure. You have seen many things and met many people. You have learned many things. You have grown as a person You have seen many things and met many people. You have learned many things. You have grown as a person",
   imageUrl: "/images/bg_thumbnail_placeholder.png",
 };

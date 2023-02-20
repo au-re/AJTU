@@ -1,21 +1,22 @@
 import axios from "axios";
-
-const baseUrl = "http://localhost:8080";
+import { baseUrl } from "../../constants";
+import { Action } from "../types";
 
 interface NextChapterRequest {
+  path: string;
   action: string;
   protagonist: string;
   events: string[];
+  currentChapterNumber: number;
 }
 
 interface NextChapterResponse {
+  chapterNumber: number;
   imageUrl: string;
   eventTitle: string;
   scenePrompt: string;
-  actionNarrations: string[];
-  actionMotivations: string[];
+  actions: Action[];
   eventDescription: string;
-  availableActions: string[];
   original: {
     actionNarrations: string;
     actionMotivations: string;

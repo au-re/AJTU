@@ -1,6 +1,7 @@
 export const narrationStyles = {
   narrator: "You are a third-person narrator.",
   protagonist: "You are the protagonist.",
+  secondPerson: "You are the narrator, writing in the second person.",
 };
 
 export const storyTypes = {

@@ -1,8 +1,10 @@
-import { Chapter } from "./GameContext";
+import { Chapter } from "./types";
 
+// TODO: allow player to customize protagonist
 export const defaultProtagonist = "Toran, a smuggler pilot on the run from the law";
 
 export const initialChapter: Chapter = {
+  chapterNumber: 1,
   title: "The gravitational anomaly",
   text: `You are Toran, a smuggler pilot on the run from the law. Chased by bounty hunters you have been hurtling through the vast expanse of space in a sleek, state-of-the-art spaceship when disaster struck. 
 An unexpected gravitational anomaly sent the vessel spiraling out of control. Before you could react, the ship careened into the atmosphere of an unknown planet. 

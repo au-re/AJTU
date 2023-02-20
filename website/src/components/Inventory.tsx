@@ -1,6 +1,6 @@
 import { Box, Image, Text, Wrap } from "@chakra-ui/react";
-import { Inventory as InventoryType, Item } from "../state/GameContext";
 import { Tooltip } from "@chakra-ui/react";
+import { Inventory as InventoryType, Item } from "../state/types";
 
 interface InventoryItemProps {
   item: Item;

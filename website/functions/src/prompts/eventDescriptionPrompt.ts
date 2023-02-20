@@ -5,7 +5,7 @@ import { instructions, narrationStyles, storyTypes, tone } from "./styles";
 // TODO: we could pass specific constraints for what could possibly happen next
 
 export const eventDescriptionPrompt = (context: StoryContext, action: string) => {
-  return `${narrationStyles.narrator}
+  return `${narrationStyles.secondPerson}
 ${storyTypes.scifi}
 ${tone.suspense}
 ${storyContext(context)}

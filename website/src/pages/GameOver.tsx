@@ -8,23 +8,23 @@ import { GameContext } from "../state/GameContext";
 
 export const GameOver = () => {
   const navigate = useNavigate();
-  const { gameOver, recap, quitGame } = useContext(GameContext);
+  const { gameOver, conclusion, quitGame } = useContext(GameContext);
 
   useEffect(() => {
-    if (!gameOver || !recap) {
+    if (!gameOver || !conclusion) {
       navigate("/");
     }
-  }, [gameOver, recap, navigate]);
+  }, [gameOver, conclusion, navigate]);
 
   return (
     <Center flexDirection="column">
       <GameMenu />
       <Stack spacing="6" alignItems="center">
-        <Heading>The sad ending</Heading>
+        <Heading>The {conclusion?.conclusion} ending</Heading>
         <Wrap direction="row" spacing="6" display="flex">
-          <AdventureImage height={"480px"} width={"480px"} fades src={recap?.imageUrl} />
+          <AdventureImage fades src={conclusion?.imageUrl} />
           <Text overflow="auto" paddingRight="6" maxHeight="480px" width={"480px"}>
-            {recap?.text}
+            {conclusion?.text}
           </Text>
         </Wrap>
         <Button onClick={quitGame}>

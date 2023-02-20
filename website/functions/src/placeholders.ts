@@ -1,7 +1,7 @@
-export const placeholderContext = {
+import { StoryContext } from "./types";
+
+export const placeholderContext: StoryContext = {
   protagonist: "Tom, a cyborg pilot on the run from the law",
-  lastEvent:
-    "After assessing the damage on the spaceship Tom realizes the engines are badly damaged, the ship is in no condition to fly. He is stranded on the planet. Tom decides to explore the planet",
   summary:
     "Being chased by bounty hunters, Tom accidentally entered an unexpected gravitational anomaly and crash landed on an unknown planet. He is the sole survivor of the crash",
 };

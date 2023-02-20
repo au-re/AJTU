@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Center,
   Heading,
@@ -41,6 +42,7 @@ export const MainMenu = () => {
         </ModalContent>
       </Modal>
       <Wrap direction="row" spacing="6" display="flex">
+        <Box width="48px" /> {/* hack to align pages */}
         <AdventureImage src="/images/bg_thumbnail_placeholder.png" />
         <Stack spacing="8" width="420px">
           <Heading size="2xl">A Journey through the Unknown</Heading>

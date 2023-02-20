@@ -1,8 +1,17 @@
-export interface GetChapterRequest {
+import { ConclusionType } from "../../src/state/types";
+
+export interface PostChapterBody {
   action: string;
   protagonist: string;
-  summary: string;
   events: string[];
+  currentChapterNumber: number;
+  path: string;
+}
+
+export interface PostConclusionBody {
+  protagonist: string;
+  events: string[];
+  conclusion: ConclusionType;
 }
 
 export interface StoryContext {
