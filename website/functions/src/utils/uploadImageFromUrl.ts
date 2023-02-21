@@ -2,6 +2,7 @@ import client from "https";
 import { bucket } from "../firebase";
 
 export async function uploadImageFromUrl(url: string, fileName: string) {
+  if (!url) return;
   const file = bucket.file(fileName);
   const signedUrl = await file.getSignedUrl({ action: "read", expires: "03-09-2491" });
 

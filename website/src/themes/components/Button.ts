@@ -2,6 +2,8 @@ import { defineStyleConfig } from "@chakra-ui/react";
 
 export const buttonTheme = defineStyleConfig({
   baseStyle: {
+    paddingTop: "2",
+    paddingBottom: "2",
     minHeight: "2.5rem",
     borderRadius: "0",
     whiteSpace: "normal",

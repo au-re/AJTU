@@ -13,10 +13,10 @@ export const chapter1: Chapter = {
     He also grabbed a powerful laser gun, just in case he encountered any hostile creatures.`,
   imageUrl: "/images/crashed_spaceship.png",
   actions: [
-    { name: "Search for supplies", motivation: "", narration: "" },
-    { name: "Investigate the crash site", motivation: "", narration: "" },
-    { name: "Wait for help", motivation: "", narration: "" },
-    { name: "Lose game", motivation: "", narration: "" },
+    { name: "Search for supplies", motivation: "example motivation", narration: "example narration" },
+    { name: "Investigate the crash site", motivation: "example motivation", narration: "example narration" },
+    { name: "Wait for help", motivation: "example motivation", narration: "example narration" },
+    { name: "Lose game", motivation: "example motivation", narration: "example narration" },
   ],
 };
 

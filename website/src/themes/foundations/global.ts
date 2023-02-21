@@ -8,14 +8,15 @@ export const globalStyles = {
     },
     body: {
       display: "flex",
-      height: "100vh",
+      minHeight: "100vh",
       bg: "background.BASE",
       color: "font.PRIMARY",
     },
-    "#root": { height: "100vh", display: "flex", flex: 1 },
+    "#root": { display: "flex", flex: 1 },
     a: {
       color: mode("teal.500", "teal.300")(props),
       _hover: {
+        color: "teal.200",
         textDecoration: "underline",
         textDecorationStyle: "dashed",
       },

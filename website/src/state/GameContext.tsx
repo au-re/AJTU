@@ -58,13 +58,17 @@ export function GameContextProvider(props: any) {
 
     const path = state.path + "." + (idx + 1);
 
-    const newChapterResponse = await fetchNextChapter({
-      path,
-      currentChapterNumber: state.chapters[state.currentChapterIndex].chapterNumber,
-      action: action.name,
-      events: state.chapters.map((chapter) => chapter.text),
-      protagonist: defaultProtagonist,
-    });
+    const [newChapterResponse] = await Promise.all([
+      fetchNextChapter({
+        path,
+        currentChapterNumber: state.chapters[state.currentChapterIndex].chapterNumber,
+        action: action.name,
+        events: state.chapters.map((chapter) => chapter.text),
+        protagonist: defaultProtagonist,
+      }),
+      // wait at least 2.5 seconds to show the narration
+      new Promise((resolve) => setTimeout(resolve, 2500)),
+    ]);
 
     if (!newChapterResponse) {
       setLoadingChapter(false);

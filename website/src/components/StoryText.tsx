@@ -1,6 +1,6 @@
 import { chakra, Text } from "@chakra-ui/react";
 import { keyframes } from "@emotion/css";
-import { useTypewriter } from "./Typewriter";
+import { useTypewriter } from "../hooks/useTypewriter";
 
 const BlinkCaret = keyframes`
   from, to { color: transparent }
@@ -10,7 +10,7 @@ const BlinkCaret = keyframes`
 export const AnimatedText = ({ text, onDone, ...props }: any) => {
   const { text: story, isDone } = useTypewriter(text, onDone);
   return (
-    <Text overflow={"auto"} lineHeight={"2rem"} {...props}>
+    <Text flex="1" overflow={"auto"} lineHeight={"1.8rem"} {...props}>
       {story}
       <chakra.span lineHeight={"2rem"} animation={isDone ? `${BlinkCaret} 0.9s step-end infinite` : ""} fontSize="xl">
         ▮
@@ -19,9 +19,13 @@ export const AnimatedText = ({ text, onDone, ...props }: any) => {
   );
 };
 
-export const StoryText = ({ text }: any) => {
+interface StoryTextProps {
+  text: string;
+}
+
+export const StoryText = ({ text }: StoryTextProps) => {
   return (
-    <Text overflow={"auto"} maxHeight={"240px"} lineHeight={"1.8rem"}>
+    <Text flex="1" overflow={"auto"} lineHeight={"1.8rem"}>
       {text}
       <chakra.span lineHeight={"1.8rem"} animation={`${BlinkCaret} 0.9s step-end infinite`} fontSize="xl">
         ▮

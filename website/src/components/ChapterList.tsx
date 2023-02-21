@@ -1,11 +1,16 @@
 import { Image, Stack, Tooltip } from "@chakra-ui/react";
 import { Chapter } from "../state/types";
 
-export const ChapterList = ({ chapters, currentChapterIndex }: any) => {
+interface ChapterListProps {
+  chapters: Chapter[];
+  currentChapterIndex: number;
+}
+
+export const ChapterList = ({ chapters, currentChapterIndex }: ChapterListProps) => {
   return (
-    <Stack direction="column" margin="2">
+    <Stack direction="row">
       {chapters.map((chapter: Chapter, index: number) => (
-        <Tooltip label={chapter.title}>
+        <Tooltip key={index} label={chapter.title}>
           <Image
             border={currentChapterIndex === index ? "2px solid white" : ""}
             objectFit="cover"

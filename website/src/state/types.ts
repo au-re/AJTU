@@ -1,7 +1,7 @@
 export interface Chapter {
   chapterNumber: number;
   text: string;
-  imageUrl?: string;
+  imageUrl: string;
   imageCaption?: string;
   actions: Action[];
   title: string;
@@ -10,7 +10,7 @@ export interface Chapter {
 export interface Conclusion {
   text: string;
   conclusion: ConclusionType;
-  imageUrl?: string;
+  imageUrl: string;
 }
 
 export interface Action {

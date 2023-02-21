@@ -23,9 +23,9 @@ export const TextCarousel = ({ text, onComplete }: { text: string; onComplete: (
   }, [text]);
 
   return (
-    <Box>
+    <>
       <StoryText text={parts[currentIndex]} />
-      <Flex marginBottom="2" marginTop="6" direction="row" justifyContent="space-between">
+      <Flex marginBottom="6" marginTop="6" direction="row" justifyContent="space-between">
         {currentIndex !== 0 ? (
           <Text
             _hover={{ color: "teal.400" }}
@@ -56,6 +56,6 @@ export const TextCarousel = ({ text, onComplete }: { text: string; onComplete: (
           </Text>
         )}
       </Flex>
-    </Box>
+    </>
   );
 };
