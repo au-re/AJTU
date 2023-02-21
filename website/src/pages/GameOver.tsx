@@ -20,7 +20,7 @@ export const GameOver = () => {
     <Center flexDirection="column">
       <GameMenu />
       <Stack spacing="6" alignItems="center">
-        <Heading>The {conclusion?.conclusion} ending</Heading>
+        <Heading>A {conclusion?.conclusion} ending</Heading>
         <Wrap direction="row" spacing="6" display="flex">
           <AdventureImage fades src={conclusion?.imageUrl} />
           <Text overflow="auto" paddingRight="6" maxHeight="480px" width={"480px"}>

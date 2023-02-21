@@ -9,6 +9,7 @@ export interface PostChapterBody {
 }
 
 export interface PostConclusionBody {
+  path: string;
   protagonist: string;
   events: string[];
   conclusion: ConclusionType;

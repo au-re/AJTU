@@ -114,4 +114,6 @@ lib/**/*.js.map
 # TypeScript v1 declaration files
 typings/
 
+# Firebase
 .firebase/
+service-account-key.json

@@ -3,6 +3,7 @@ import { baseUrl } from "../../constants";
 import { Conclusion } from "../types";
 
 interface NextChapterRequest {
+  path: string;
   conclusion: string;
   protagonist: string;
   events: string[];

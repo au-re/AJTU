@@ -1,6 +1,8 @@
 import cors from "cors";
 import express, { Request } from "express";
 import * as functions from "firebase-functions";
+import { Chapter, Conclusion } from "../../src/state/types";
+import { db } from "./firebase";
 import { createCompletion, createImage } from "./openai";
 import { placeholderAction, placeholderActions, placeholderContext, placeholderLastEvent } from "./placeholders";
 import { actionMotivationPrompt } from "./prompts/actionMotivationPrompt";
@@ -15,6 +17,7 @@ import { getActionsFromStoryManager } from "./storyManager.ts/getActionsFromStor
 import { PostChapterBody, PostConclusionBody, StoryContext } from "./types";
 import { splitCommaSeparatedString } from "./utils/splitCommaSeparatedString";
 import { trimIncompleteSentence } from "./utils/trimIncompleteSentence";
+import { uploadImageFromUrl } from "./utils/uploadImageFromUrl";
 
 const app = express();
 
@@ -26,9 +29,26 @@ app.use(cors());
  * This endpoint is used create a new chapter of the story, given an action taken by the protagonist
  * and the events that have happened so far.
  *
+ * TODO: split this function so the different requests can resolve sooner
  */
 app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
   const { action, protagonist, events, currentChapterNumber, path } = req.body;
+
+  const storedChapter = await db.collection("chapters").doc(path).get();
+
+  if (storedChapter.exists) {
+    const { chapter, original } = storedChapter.data() as { chapter: Chapter; original: any };
+    res.send({
+      chapterNumber: chapter?.chapterNumber,
+      imageUrl: chapter?.imageUrl,
+      actions: chapter?.actions,
+      eventDescription: chapter?.text,
+      eventTitle: chapter?.title,
+      scenePrompt: chapter?.imageCaption,
+      original,
+    });
+    return;
+  }
 
   const storyContext: StoryContext = { protagonist, summary: events.join("\n") };
 
@@ -53,38 +73,73 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
   }));
 
   const actions = getActionsFromStoryManager(currentChapterNumber, actionList);
+  const text = trimIncompleteSentence(eventDescription);
+  const title = eventTitle.replace(/"/g, "");
+  const chapterNumber = currentChapterNumber + 1;
+  const chapter: Chapter = {
+    actions,
+    chapterNumber,
+    text,
+    imageUrl,
+    imageCaption: scenePrompt,
+    title,
+  };
+  const original = {
+    actionNarrations,
+    actionMotivations,
+    eventDescription,
+    availableActions,
+  };
 
+  // TODO: cleanup this API
   res.send({
-    chapterNumber: currentChapterNumber + 1,
+    chapterNumber,
     imageUrl,
     actions,
-    eventDescription: trimIncompleteSentence(eventDescription),
-    eventTitle: eventTitle.replace(/"/g, ""),
+    eventDescription: text,
+    eventTitle: title,
     scenePrompt,
-    original: {
-      actionNarrations,
-      actionMotivations,
-      eventDescription,
-      availableActions,
-    },
+    original,
   });
+
+  const cacheURL = await uploadImageFromUrl(imageUrl, `chapters/${path}.png`);
+
+  db.collection("chapters")
+    .doc(path)
+    .set({ chapter: { ...chapter, imageUrl: cacheURL }, original });
 });
 
 /**
  * This endpoint is used to create a conclusion for the story, given the events that have happened
- *
  */
 app.post("/conclusion", async (req: Request<any, any, PostConclusionBody>, res) => {
-  const { protagonist, events, conclusion } = req.body;
+  const { protagonist, events, conclusion, path } = req.body;
   const storyContext: StoryContext = { protagonist, summary: events.join("\n") };
+
+  const storedConclusion = await db.collection("conclusions").doc(path).get();
+
+  if (storedConclusion.exists) {
+    const { conclusion } = storedConclusion.data() as { conclusion: Conclusion };
+    res.send(conclusion);
+    return;
+  }
 
   const text = await createCompletion(conclusionDescriptionPrompt(storyContext, conclusion));
   const scenePrompt = await createCompletion(eventScenePrompt(text));
   const imageUrl = await createImage(imagePrompt(scenePrompt));
 
   res.send({ text, imageUrl, conclusion });
+
+  const cacheURL = await uploadImageFromUrl(imageUrl, `conclusions/${path}.png`);
+
+  db.collection("conclusions")
+    .doc(path)
+    .set({ conclusion: { text, imageUrl: cacheURL, conclusion } });
 });
 
+/**
+ * this endpoint is used for debugging purposes, to see what the prompts look like
+ */
 app.get("/prompts", async (req, res) => {
   res.send({
     eventDescriptionPrompt: eventDescriptionPrompt(placeholderContext, placeholderAction),

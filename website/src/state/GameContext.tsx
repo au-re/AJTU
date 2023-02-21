@@ -44,6 +44,7 @@ export function GameContextProvider(props: any) {
 
     if (action.conclusion) {
       const conclusion = await fetchConclusion({
+        path: state.path,
         protagonist: defaultProtagonist,
         events: state.chapters.map((chapter) => chapter.text),
         conclusion: action.conclusion,
@@ -55,7 +56,7 @@ export function GameContextProvider(props: any) {
       return;
     }
 
-    const path = state.path + "." + idx;
+    const path = state.path + "." + (idx + 1);
 
     const newChapterResponse = await fetchNextChapter({
       path,
