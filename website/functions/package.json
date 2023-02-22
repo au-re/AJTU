@@ -14,6 +14,8 @@
   },
   "main": "build/functions/src/index.js",
   "dependencies": {
+    "@sentry/node": "^7.38.0",
+    "@sentry/tracing": "^7.38.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "firebase-admin": "^11.5.0",
