@@ -63,7 +63,7 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
 
   const storyContext: StoryContext = { protagonist, summary: events.join("\n") };
 
-  const eventDescription = await createCompletion(eventDescriptionPrompt(storyContext, action));
+  const eventDescription = trimIncompleteSentence(await createCompletion(eventDescriptionPrompt(storyContext, action)));
 
   const [availableActions, eventTitle, scenePrompt] = await Promise.all([
     createCompletion(availableActionsPrompt({ ...storyContext, summary: [...events, eventDescription].join("\n") })),
@@ -84,13 +84,12 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
   }));
 
   const actions = getActionsFromStoryManager(currentChapterNumber, actionList);
-  const text = trimIncompleteSentence(eventDescription);
   const title = eventTitle.replace(/"/g, "");
   const chapterNumber = currentChapterNumber + 1;
   const chapter: Chapter = {
     actions,
     chapterNumber,
-    text,
+    text: eventDescription,
     imageUrl,
     imageCaption: scenePrompt,
     title,
@@ -107,7 +106,7 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
     chapterNumber,
     imageUrl,
     actions,
-    eventDescription: text,
+    eventDescription,
     eventTitle: title,
     scenePrompt,
     original,
@@ -135,7 +134,7 @@ app.post("/conclusion", async (req: Request<any, any, PostConclusionBody>, res) 
     return;
   }
 
-  const text = await createCompletion(conclusionDescriptionPrompt(storyContext, conclusion));
+  const text = trimIncompleteSentence(await createCompletion(conclusionDescriptionPrompt(storyContext, conclusion)));
   const scenePrompt = await createCompletion(eventScenePrompt(text));
   const imageUrl = await createImage(imagePrompt(scenePrompt));
 

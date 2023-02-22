@@ -66,8 +66,8 @@ export function GameContextProvider(props: any) {
         events: state.chapters.map((chapter) => chapter.text),
         protagonist: defaultProtagonist,
       }),
-      // wait at least 2.5 seconds to show the narration
-      new Promise((resolve) => setTimeout(resolve, 2500)),
+      // wait at least 1.5 seconds to show the narration
+      new Promise((resolve) => setTimeout(resolve, 1500)),
     ]);
 
     if (!newChapterResponse) {

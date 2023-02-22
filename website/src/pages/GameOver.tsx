@@ -45,17 +45,17 @@ export const GameOver = () => {
         width={{ base: "100%", xl: "420px" }}
         minWidth={{ base: "240px", sm: "420px" }}
       >
-        <Heading size="2xl" marginBottom={{ base: "2", md: "8" }}>
+        <Heading size="2xl" marginBottom={{ base: "4", md: "8" }}>
           A {conclusion?.conclusion} ending
         </Heading>
-        <Box>
-          <AnimatedText text={conclusion.text} />
-        </Box>
-        <Wrap direction="column">
+        <Wrap direction="column" marginBottom={{ base: "4", md: "8" }}>
           <Button onClick={quitGame}>
             <Glitch text="> Game Over" />
           </Button>
         </Wrap>
+        <Box>
+          <AnimatedText text={conclusion.text} />
+        </Box>
         <Wrap height="16" />
       </Box>
     </>

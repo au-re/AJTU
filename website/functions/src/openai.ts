@@ -8,7 +8,7 @@ export const openai = new OpenAIApi(configuration);
 
 const defaultCompletionOptions = {
   model: "text-davinci-003",
-  maxTokens: 124,
+  maxTokens: 180,
   temperature: 0,
 };
 
