@@ -47,7 +47,7 @@ export const MainMenu = () => {
             <Glitch text="> Start a new Adventure" />
           </Button>
         </Wrap>
-        <Box>
+        <Box marginBottom="6">
           <AnimatedText text={description} />
         </Box>
       </Box>
