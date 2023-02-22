@@ -17,6 +17,7 @@ export const tone = {
 export const writingStyle = {
   asimov: "Written in the style of Isaac Asimov.",
   bradbury: "Written in the style of Ray Bradbury.",
+  neruda: "Written in the style of Pablo Neruda.",
 };
 
 export const instructions = {

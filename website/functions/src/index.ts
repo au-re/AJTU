@@ -17,7 +17,7 @@ import { eventTitlePrompt } from "./prompts/eventTitlePrompt";
 import { imagePrompt } from "./prompts/imagePrompt";
 import { getActionsFromStoryManager } from "./storyManager.ts/getActionsFromStoryManager";
 import { PostChapterBody, PostConclusionBody, StoryContext } from "./types";
-import { splitCommaSeparatedString } from "./utils/splitCommaSeparatedString";
+import { splitNumeratedList } from "./utils/splitNumeratedList";
 import { trimIncompleteSentence } from "./utils/trimIncompleteSentence";
 import { uploadImageFromUrl } from "./utils/uploadImageFromUrl";
 
@@ -58,6 +58,21 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
       scenePrompt: chapter?.imageCaption,
       original,
     });
+
+    // TEMPORARY: patch a chapter with the new parser
+    // const actionList = splitNumeratedList(original.availableActions).map((availableAction, index) => ({
+    //   name: availableAction,
+    //   narration: splitNumeratedList(original.actionNarrations)[index],
+    //   motivation: splitNumeratedList(original.actionMotivations)[index],
+    // }));
+    //
+    // await db
+    //   .collection("chapters")
+    //   .doc(path)
+    //   .set({ chapter: { ...chapter, actions: actionList }, original });
+    //
+    // ------------------------------
+
     return;
   }
 
@@ -77,10 +92,10 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
     createImage(imagePrompt(scenePrompt)),
   ]);
 
-  const actionList = splitCommaSeparatedString(availableActions).map((availableAction, index) => ({
+  const actionList = splitNumeratedList(availableActions).map((availableAction, index) => ({
     name: availableAction,
-    narration: splitCommaSeparatedString(actionNarrations)[index],
-    motivation: splitCommaSeparatedString(actionMotivations)[index],
+    narration: splitNumeratedList(actionNarrations)[index],
+    motivation: splitNumeratedList(actionMotivations)[index],
   }));
 
   const actions = getActionsFromStoryManager(currentChapterNumber, actionList);

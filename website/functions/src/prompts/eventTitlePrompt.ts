@@ -1,8 +1,12 @@
-import { instructions } from "./styles";
+import { writingStyle } from "./styles";
 
 export const eventTitlePrompt = (narration: string) => {
-  return `${narration}
-Write a short title for the scene above.
-${instructions.avoid}
-${instructions.shortDescription}`;
+  return `Write a title for the scene below, the title should be a single sentence.
+${writingStyle.neruda}
+
+Scene: """
+${narration}
+"""
+
+A:`;
 };

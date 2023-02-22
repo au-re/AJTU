@@ -3,5 +3,5 @@ export const splitMapSentence = (string: string) => {
     .replace(/(\n|:)/g, "|")
     .split("|")
     .filter((_, i) => i % 2 !== 0)
-    .map((s) => s.trim().replace(/.$/, "."));
+    .map((s) => s.trim().replace(/\.$/, "."));
 };
