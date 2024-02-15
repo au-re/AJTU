@@ -1,29 +1,6 @@
 import axios from "axios";
 import { baseUrl } from "../../constants";
-import { Action } from "../types";
-
-interface NextChapterRequest {
-  path: string;
-  action: string;
-  protagonist: string;
-  events: string[];
-  currentChapterNumber: number;
-}
-
-interface NextChapterResponse {
-  chapterNumber: number;
-  imageUrl: string;
-  eventTitle: string;
-  scenePrompt: string;
-  actions: Action[];
-  eventDescription: string;
-  original: {
-    actionNarrations: string;
-    actionMotivations: string;
-    eventDescription: string;
-    availableActions: string;
-  };
-}
+import { NextChapterRequest, NextChapterResponse } from "../types";
 
 export const fetchNextChapter = async (payload: NextChapterRequest): Promise<NextChapterResponse | null> => {
   try {

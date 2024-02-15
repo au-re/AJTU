@@ -15,9 +15,9 @@ export const ChapterActions = (props: ChapterActionsProps) => {
       <Text>What do you do?</Text>
       {chapter.actions.map((action, index) => {
         return (
-          <Tooltip placement="left" key={action.name} label={action.motivation}>
+          <Tooltip placement="left" key={action.action_name} label={action.action_description}>
             <Button height="fit-content" isLoading={isLoading} onClick={() => onActionClick(action, index)}>
-              <Glitch text={action.name} />
+              <Glitch text={action.action_name} />
             </Button>
           </Tooltip>
         );

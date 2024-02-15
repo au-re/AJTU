@@ -16,7 +16,8 @@ export const Game = () => {
   const [selectedActionIndex, setSelectedActionIndex] = useState<number | null>(null);
   const { gameOver, currentChapterIndex, chapters, takeAction, isLoadingChapter } = useContext(GameContext);
   const currentChapter = chapters[currentChapterIndex];
-  const currentNarration = selectedActionIndex === null ? "" : currentChapter?.actions[selectedActionIndex]?.narration;
+  const currentNarration =
+    selectedActionIndex === null ? "" : currentChapter?.actions[selectedActionIndex]?.action_description;
 
   const onActionClick = async (action: Action, index: number) => {
     setSelectedActionIndex(index);
@@ -50,7 +51,7 @@ export const Game = () => {
           height={{ base: "480px", xl: "720px" }}
           width={{ base: "calc(100vw - 4px)", xl: "720px" }}
         >
-          <ChapterImage caption={currentChapter.imageCaption} fades src={currentChapter.imageUrl} />
+          <ChapterImage caption={currentChapter.image_caption} fades src={currentChapter.image_url} />
         </Box>
         <Box padding="2">
           <ChapterList chapters={chapters} currentChapterIndex={currentChapterIndex} />

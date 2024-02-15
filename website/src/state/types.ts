@@ -1,32 +1,35 @@
 export interface Chapter {
-  chapterNumber: number;
-  text: string;
-  imageUrl: string;
-  imageCaption?: string;
-  actions: Action[];
   title: string;
+  text: string;
+  image_url: string;
+  image_caption?: string;
+  actions: Action[];
 }
 
 export interface Conclusion {
   text: string;
   conclusion: ConclusionType;
-  imageUrl: string;
+  image_url: string;
 }
 
 export interface Action {
-  name: string;
-  narration: string;
-  motivation: string;
-  conclusion?: ConclusionType;
-}
-
-export interface Item {
-  name: string;
-  imageUrl: string;
-}
-
-export interface Inventory {
-  items: Item[];
+  action_name: string;
+  action_description: string;
 }
 
 export type ConclusionType = "sad" | "happy" | "neutral";
+
+export interface NextChapterRequest {
+  path: string;
+  action: string;
+  protagonist: string;
+  events: string[];
+}
+
+export interface NextChapterResponse {
+  imageUrl: string;
+  eventTitle: string;
+  scenePrompt: string;
+  actions: Action[];
+  eventDescription: string;
+}

@@ -31,7 +31,7 @@ export const GameOver = () => {
           height={{ base: "480px", xl: "720px" }}
           width={{ base: "calc(100vw - 4px)", xl: "720px" }}
         >
-          <ChapterImage caption={""} fades src={conclusion.imageUrl} />
+          <ChapterImage caption={""} fades src={conclusion.image_url} />
         </Box>
         <Box padding="2">
           <ChapterList chapters={chapters} currentChapterIndex={currentChapterIndex} />

@@ -17,7 +17,7 @@ export const ChapterList = ({ chapters, currentChapterIndex }: ChapterListProps)
             width={"48px"}
             height={"48px"}
             key={chapter.title + index}
-            src={chapter.imageUrl}
+            src={chapter.image_url}
           />
         </Tooltip>
       ))}

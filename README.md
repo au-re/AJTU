@@ -38,14 +38,23 @@ In the `website` and the `functions` folders install the project dependencies wi
 yarn
 ```
 
-In the `functions` folder copy the contents of the `.env-template` into a `.env` file.
+In the `functions` folder add your Prompt Studio api key into an `.env` file.
+
+Install the [firebase cli](https://firebase.google.com/docs/cli) on you machine.
+
+### Uploading to cloud storage
+
+Images are uploaded to cloud storage after they are generated, for this to work you will need to add a service-account-key
+if you want to test the functions locally. You can create your service-account-key here: https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating
+
+Add your service account key for firebase in `functions/src/service-account-key.json`
 
 ## Run website
 
 You can run the website locally with:
 
 ```
-yarn start
+npm start
 ```
 
 ## Run cloud functions locally
@@ -53,10 +62,5 @@ yarn start
 To be able to fetch the chapters you need to run the cloud functions locally first. To do that, you need to run the following command from the `functions` folder:
 
 ```
-yarn serve
+npm run serve
 ```
-
-## Uploading to cloud storage
-
-Images are uploaded to cloud storage after they are generated, for this to work you will need to add a service-account-key
-if you want to test the functions locally. You can create your service-account-key here: https://cloud.google.com/iam/docs/creating-managing-service-account-keys#creating

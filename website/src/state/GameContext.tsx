@@ -1,7 +1,6 @@
 import React from "react";
 import { defaultProtagonist, initialChapter } from "./initialChapter";
 import { fetchNextChapter } from "./requests/fetchChapter";
-import { fetchConclusion } from "./requests/fetchConclusion";
 import { Action, Chapter, Conclusion } from "./types";
 
 const defaultGameState = {
@@ -42,27 +41,26 @@ export function GameContextProvider(props: any) {
   const takeAction = async (action: Action, idx: number) => {
     setLoadingChapter(true);
 
-    if (action.conclusion) {
-      const conclusion = await fetchConclusion({
-        path: state.path,
-        protagonist: defaultProtagonist,
-        events: state.chapters.map((chapter) => chapter.text),
-        conclusion: action.conclusion,
-      });
-
-      if (!conclusion) return;
-      setState({ ...state, conclusion, gameOver: true });
-      setLoadingChapter(false);
-      return;
-    }
+    // if (action.conclusion) {
+    //   const conclusion = await fetchConclusion({
+    //     path: state.path,
+    //     protagonist: defaultProtagonist,
+    //     events: state.chapters.map((chapter) => chapter.text),
+    //     conclusion: action.conclusion,
+    //   });
+    //
+    //   if (!conclusion) return;
+    //   setState({ ...state, conclusion, gameOver: true });
+    //   setLoadingChapter(false);
+    //   return;
+    // }
 
     const path = state.path + "." + (idx + 1);
 
     const [newChapterResponse] = await Promise.all([
       fetchNextChapter({
         path,
-        currentChapterNumber: state.chapters[state.currentChapterIndex].chapterNumber,
-        action: action.name,
+        action: action.action_name,
         events: state.chapters.map((chapter) => chapter.text),
         protagonist: defaultProtagonist,
       }),
@@ -76,12 +74,11 @@ export function GameContextProvider(props: any) {
       return;
     }
 
-    const newChapter = {
-      chapterNumber: newChapterResponse.chapterNumber,
+    const newChapter: Chapter = {
       title: newChapterResponse.eventTitle,
       text: newChapterResponse.eventDescription,
-      imageUrl: newChapterResponse.imageUrl,
-      imageCaption: newChapterResponse.scenePrompt,
+      image_url: newChapterResponse.imageUrl,
+      image_caption: newChapterResponse.scenePrompt,
       actions: newChapterResponse.actions,
     };
 

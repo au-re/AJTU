@@ -22,6 +22,12 @@ export const TextCarousel = ({ text, onComplete }: { text: string; onComplete: (
     setIndex(0);
   }, [text]);
 
+  useEffect(() => {
+    if (currentIndex === parts.length - 1) {
+      onComplete();
+    }
+  }, [currentIndex, onComplete, parts.length]);
+
   return (
     <>
       <StoryText text={parts[currentIndex]} />
@@ -47,9 +53,6 @@ export const TextCarousel = ({ text, onComplete }: { text: string; onComplete: (
             fontSize="lg"
             onClick={() => {
               setIndex(currentIndex + 1);
-              if (currentIndex + 1 === parts.length - 1) {
-                onComplete();
-              }
             }}
           >
             <Glitch text="next >" />

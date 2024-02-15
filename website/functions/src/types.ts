@@ -4,7 +4,6 @@ export interface PostChapterBody {
   action: string;
   protagonist: string;
   events: string[];
-  currentChapterNumber: number;
   path: string;
 }
 
