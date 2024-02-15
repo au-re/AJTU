@@ -13,7 +13,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: build website
-        run: yarn install --frozen-lockfile && yarn build
+        run: npm install --frozen-lockfile && npm build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           entryPoint: ./website
