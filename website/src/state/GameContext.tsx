@@ -2,6 +2,7 @@ import React from "react";
 import { initialChapter } from "./initialChapter";
 import { fetchNextChapter } from "./requests/fetchChapter";
 import { Action, Chapter, Conclusion } from "./types";
+import { fetchConclusion } from "./requests/fetchConclusion";
 
 const defaultGameState = {
   path: "0",
@@ -41,19 +42,17 @@ export function GameContextProvider(props: any) {
   const takeAction = async (action: Action, idx: number) => {
     setLoadingChapter(true);
 
-    // if (action.conclusion) {
-    //   const conclusion = await fetchConclusion({
-    //     path: state.path,
-    //     protagonist: defaultProtagonist,
-    //     events: state.chapters.map((chapter) => chapter.text),
-    //     conclusion: action.conclusion,
-    //   });
-    //
-    //   if (!conclusion) return;
-    //   setState({ ...state, conclusion, gameOver: true });
-    //   setLoadingChapter(false);
-    //   return;
-    // }
+    if (state.currentChapterIndex >= 2) {
+      const conclusion = await fetchConclusion({
+        path: state.path,
+        events: state.chapters.map((chapter) => chapter.text),
+      });
+
+      if (!conclusion) return;
+      setState({ ...state, conclusion, gameOver: true });
+      setLoadingChapter(false);
+      return;
+    }
 
     const path = state.path + "." + (idx + 1);
 

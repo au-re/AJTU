@@ -1,3 +1,5 @@
+import "dotenv/config";
+
 import * as Sentry from "@sentry/node";
 import * as Tracing from "@sentry/tracing";
 import cors from "cors";
@@ -6,9 +8,9 @@ import * as functions from "firebase-functions";
 import { Action, Chapter, Conclusion } from "../../src/state/types";
 import { db } from "./firebase";
 import { createImage } from "./openai";
+import { generateConclusion, generateScene } from "./ps";
 import { PostChapterBody, PostConclusionBody } from "./types";
 import { uploadImageFromUrl } from "./utils/uploadImageFromUrl";
-import { generateConclusion, generateScene } from "./ps";
 
 interface NextChapterResponse {
   imageUrl: string;
@@ -41,22 +43,21 @@ app.use(Sentry.Handlers.tracingHandler());
 app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
   const { action, events, path } = req.body;
 
-  // const storedChapter = await db.collection("chapters").doc(path).get();
+  const storedChapter = await db.collection("chapters").doc(path).get();
 
   // remove cache
-  // if (storedChapter.exists) {
-  //   const { chapter, original } = storedChapter.data() as { chapter: Chapter; original: any };
-  //   res.send({
-  //     imageUrl: chapter?.imageUrl,
-  //     actions: chapter?.actions,
-  //     eventDescription: chapter?.text,
-  //     eventTitle: chapter?.title,
-  //     scenePrompt: chapter?.imageCaption,
-  //     original,
-  //   });
-
-  //   return;
-  // }
+  if (storedChapter.exists) {
+    const { chapter, original } = storedChapter.data() as { chapter: Chapter; original: any };
+    res.send({
+      imageUrl: chapter?.image_url,
+      actions: chapter?.actions,
+      eventDescription: chapter?.text,
+      eventTitle: chapter?.title,
+      scenePrompt: chapter?.image_caption,
+      original,
+    });
+    return;
+  }
 
   try {
     const { scene_title, scene_description, actions, image_description } = await generateScene({
@@ -74,8 +75,6 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
       title: scene_title,
     };
 
-    console.log(chapter);
-
     res.send({
       imageUrl: image_url,
       actions,
@@ -84,11 +83,11 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
       scenePrompt: image_description,
     } as NextChapterResponse);
 
-    // const cacheURL = await uploadImageFromUrl(image_url, `chapters/${path}.png`);
+    const cacheURL = await uploadImageFromUrl(image_url, `chapters/${path}.png`);
 
-    // db.collection("chapters")
-    //   .doc(path)
-    //   .set({ chapter: { ...chapter, imageUrl: cacheURL } });
+    db.collection("chapters")
+      .doc(path)
+      .set({ chapter: { ...chapter, image_url: cacheURL } });
   } catch (e) {
     res.status(500).send({ e });
   }
@@ -98,7 +97,7 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
  * This endpoint is used to create a conclusion for the story, given the events that have happened
  */
 app.post("/conclusion", async (req: Request<any, any, PostConclusionBody>, res) => {
-  const { events, conclusion, path } = req.body;
+  const { events, path } = req.body;
 
   const storedConclusion = await db.collection("conclusions").doc(path).get();
 
@@ -109,20 +108,20 @@ app.post("/conclusion", async (req: Request<any, any, PostConclusionBody>, res) 
   }
 
   const { conclusion_scene, image_description, conclusion_type } = await generateConclusion({
-    context: events.join("\n"),
+    story: events.join("\n"),
   });
 
   const text = conclusion_scene;
 
-  const imageUrl = await createImage(image_description);
+  const image_url = await createImage(image_description);
 
-  res.send({ text, imageUrl, conclusion_type });
+  res.send({ text, image_url, conclusion: conclusion_type });
 
-  const cacheURL = await uploadImageFromUrl(imageUrl, `conclusions/${path}.png`);
+  const cacheURL = await uploadImageFromUrl(image_url, `conclusions/${path}.png`);
 
   db.collection("conclusions")
     .doc(path)
-    .set({ conclusion: { text, imageUrl: cacheURL, conclusion } });
+    .set({ conclusion: { text, image_url: cacheURL, conclusion: conclusion_type } });
 });
 
 app.get("/ping", (req, res) => {
