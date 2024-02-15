@@ -6,6 +6,10 @@ interface GenerateSceneParams {
   last_action: string;
 }
 
+interface CreateConclusionParams {
+  story: string;
+}
+
 const generate_scene_deployment = "dep_2cP7qgye5WS4Oj9suPOwq1ktWwi";
 const generate_completion_deployment = "dep_2cPEWMr1OEnsFthkf9f7hQzBZwK";
 
@@ -38,10 +42,6 @@ export const generateScene = async (input: GenerateSceneParams) => {
     };
   }
 };
-
-interface CreateConclusionParams {
-  story: string;
-}
 
 export const generateConclusion = async (params: CreateConclusionParams) => {
   const { data } = await axios.post(

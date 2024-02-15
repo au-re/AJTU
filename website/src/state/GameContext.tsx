@@ -42,7 +42,7 @@ export function GameContextProvider(props: any) {
   const takeAction = async (action: Action, idx: number) => {
     setLoadingChapter(true);
 
-    if (state.currentChapterIndex >= 4) {
+    if (state.currentChapterIndex >= 2) {
       const conclusion = await fetchConclusion({
         path: state.path,
         events: state.chapters.map((chapter) => chapter.text),
