@@ -22,7 +22,6 @@ export type ConclusionType = "sad" | "happy" | "neutral";
 export interface NextChapterRequest {
   path: string;
   action: string;
-  protagonist: string;
   events: string[];
 }
 

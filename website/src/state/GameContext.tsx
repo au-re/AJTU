@@ -1,5 +1,5 @@
 import React from "react";
-import { defaultProtagonist, initialChapter } from "./initialChapter";
+import { initialChapter } from "./initialChapter";
 import { fetchNextChapter } from "./requests/fetchChapter";
 import { Action, Chapter, Conclusion } from "./types";
 
@@ -62,7 +62,6 @@ export function GameContextProvider(props: any) {
         path,
         action: action.action_name,
         events: state.chapters.map((chapter) => chapter.text),
-        protagonist: defaultProtagonist,
       }),
       // wait at least 1.5 seconds to show the narration
       new Promise((resolve) => setTimeout(resolve, 1500)),

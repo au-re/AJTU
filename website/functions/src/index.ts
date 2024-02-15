@@ -58,18 +58,13 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
   //   return;
   // }
 
-  console.log(action, events, path);
-
   try {
-    const { new_scene, user_actions, image_description } = await generateScene({
-      context: events.join("\n"),
+    const { scene_title, scene_description, actions, image_description } = await generateScene({
+      previous_scene: events.join("\n"),
       last_action: action,
     });
 
-    const actions = JSON.parse(user_actions);
-    const { scene_title, scene_description } = JSON.parse(new_scene);
-
-    const image_url = await createImage(image_description);
+    const image_url = image_description ? await createImage(image_description) : "";
 
     const chapter: Chapter = {
       actions,
@@ -79,6 +74,8 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
       title: scene_title,
     };
 
+    console.log(chapter);
+
     res.send({
       imageUrl: image_url,
       actions,
@@ -87,13 +84,13 @@ app.post("/chapter", async (req: Request<any, any, PostChapterBody>, res) => {
       scenePrompt: image_description,
     } as NextChapterResponse);
 
-    const cacheURL = await uploadImageFromUrl(image_url, `chapters/${path}.png`);
+    // const cacheURL = await uploadImageFromUrl(image_url, `chapters/${path}.png`);
 
-    db.collection("chapters")
-      .doc(path)
-      .set({ chapter: { ...chapter, imageUrl: cacheURL } });
+    // db.collection("chapters")
+    //   .doc(path)
+    //   .set({ chapter: { ...chapter, imageUrl: cacheURL } });
   } catch (e) {
-    res.status(500).send();
+    res.status(500).send({ e });
   }
 });
 

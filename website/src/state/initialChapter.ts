@@ -1,10 +1,8 @@
 import { Chapter } from "./types";
 
-export const defaultProtagonist = "You are a smuggler pilot on the run from the law";
-
 export const initialChapter: Chapter = {
   title: "The gravitational anomaly",
-  text: `asd`,
+  text: `In the vast expanse of space, you, a seasoned smuggler pilot, are suddenly thrust into peril when a gravitational anomaly sends your ship careening toward an unknown planet. The crash is violent, jarring you around in the cockpit amidst a cacophony of alarms and shattering glass. When the dust settles, you find yourself in a desolate wasteland, your ship a wrecked shell, unable to fly. Miraculously, you've survived with mere scrapes, but the real challenge begins now: stranded and alone on an alien terrain, you must rely on your wits and experience in this unexpected fight for survival`,
   image_url: "/images/crashed_spaceship.png",
   image_caption: "The wreckage of your ship",
   actions: [
